@@ -21,7 +21,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->enum('gender',['male,female'])->nullable();
             $table->longText('device_token')->nullable();
-            $table->date('birthdate');
+            $table->date('birthdate')->nullable();
             $table->string('otp')->nullable();
             $table->string('theme')->nullable();
             $table->string('password')->nullable();
