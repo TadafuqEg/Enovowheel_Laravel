@@ -1,0 +1,138 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+
+
+.customInputContainer {
+  width: 100%;
+  display: flex;
+  font-size: 16px;
+
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.customInputContainer .customInput {
+
+  cursor: pointer;
+  user-select: none;
+  font-size: 1.16rem;
+  justify-content: space-between;
+  
+}
+
+.customInputContainer .customInput i {
+  transition: transform 0.3s ease-in-out;
+}
+
+.customInputContainer.show .customInput i {
+  transform: rotate(90deg);
+}
+
+.customInputContainer :is(.customInput, .options) {
+  width: 100%;
+  display: flex;
+  color: #202020;
+  background: #fff;
+  align-items: center;
+  border-radius: 0.3rem;
+}
+
+.customInputContainer .options {
+  display: none;
+
+  font-size: 1.1rem;
+  justify-content: start;
+  flex-direction: column;
+ 
+  transition: background-color 0.1s ease-in-out;
+}
+
+.customInputContainer.show .options {
+  display: block;
+}
+
+.customInputContainer .options :is(.searchInput, ul) {
+  width: 100%;
+  max-height: 15rem;
+  overflow-y: scroll;
+  position: relative;
+  color: #929292;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.customInputContainer .options ul::-webkit-scrollbar {
+  width: 6px;
+  position: relative;
+}
+
+.customInputContainer .options ul::-webkit-scrollbar-track{
+    width: 2px;
+    border-radius: .2rem;
+    background: rgb(0 0 0 / 10%)
+}
+
+.customInputContainer .options ul::-webkit-scrollbar-thumb{
+    border-radius: .2rem;
+    background: rgb(0 0 0 / 30%);
+}
+
+.customInputContainer .options .searchInput {
+  display: flex;
+  padding: 0 0.4rem;
+  height: 2.5rem;
+
+  overflow-y: auto;
+  align-items: center;
+  border-radius: 0.4rem;
+  color: rgb(0 0 0 / 50%);
+  border: 2px solid rgb(0 0 0 / 30%);
+}
+
+.customInputContainer .options .searchInput.focus {
+  border: 2px solid rgb(52 211 153 / 70%);
+}
+
+.customInputContainer .options .searchInput input[type="text"] {
+  border: 0;
+  width: 100%;
+  outline: none;
+  margin-bottom: 0px;
+  height: 2.5rem;
+  font-size: 1rem;
+  padding: 0 0.4rem;
+  border-radius: 0.4rem;
+}
+
+.customInputContainer .options .searchInput input[type="text"]::placeholder {
+  font-size: 1rem;
+  color: rgb(0 0 0 / 50%);
+}
+
+.customInputContainer .options ul {
+  margin: 0.5rem 0;
+}
+
+.customInputContainer .options ul li {
+    cursor: pointer;
+    list-style: none;
+    padding: 0.4rem 0.4rem;
+    border-bottom: 1px solid rgb(204 204 204 / 50%);
+}
+
+.customInputContainer .options ul li.selected {
+    background: rgb(52 211 153 / 50%);
+}
+
+.customInputContainer .options ul li.selected:hover {
+    background: rgb(52 211 153 / 50%);
+}
+
+.customInputContainer .options ul li:last-child {
+  border: 0;
+}
+
+.customInputContainer .options ul li:hover {
+  background: rgb(52 211 153 / 20%);
+}

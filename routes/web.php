@@ -1,0 +1,50 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\dashboard\AuthController;
+use App\Http\Controllers\dashboard\UserController;
+use App\Http\Controllers\dashboard\SettingController;
+
+/*
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
+
+////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////dashboard//////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////
+Route::get('/admin-dashboard', function () {
+    
+    if(!auth()->user()){
+        return redirect('/admin-dashboard/login');
+    }else{
+        return redirect('/admin-dashboard/home');
+    }
+});
+Route::get('/admin-dashboard/login', [AuthController::class, 'login_view'])->name('login.view');
+Route::post('/admin-dashboard/login', [AuthController::class, 'login'])->name('login');
+Route::group(['middleware' => ['admin'], 'prefix' => 'admin-dashboard'], function () {
+    Route::get('/home', [AuthController::class, 'home'])->name('home');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+    /////////////////////////////////////////
+    Route::any('/users', [UserController::class, 'index'])->name('users'); 
+    Route::get('/users/create', [UserController::class, 'create'])->name('add.user');
+    Route::post('/users/create', [UserController::class, 'store'])->name('create.user');
+    Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('edit.user');
+    Route::post('/user/update/{id}', [UserController::class, 'update'])->name('update.user');
+    Route::get('/user/delete/{id}', [UserController::class, 'delete'])->name('delete.user');
+   
+   
+    Route::get('/settings',[SettingController::class,'index'])->name('settings');
+    Route::get('/setting/edit/{id}', [SettingController::class, 'edit_setting'])->name('edit.setting');
+    Route::post('/setting/update/{id}', [SettingController::class, 'update_setting'])->name('update.setting');
+   
+});
