@@ -162,9 +162,10 @@ class AuthController extends ApiController
         }
 
         User::where('id', auth()->user()->id)->update([ 'first_name' => $request->first_name,
-        'last_name' => $request->last_name,
+                                                        'last_name' => $request->last_name,
                                                        'email' => $request->email,
                                                        'phone' => $request->phone,
+                                                       'country_code' => $request->country_code,
                                                        'birthdate' => $request->birthdate,
                                                        'gender' => $request->gender
                                                        
@@ -197,21 +198,18 @@ class AuthController extends ApiController
 
     public function contact_us(Request $request){
         $validator  =   Validator::make($request->all(), [
-            'name' => ['required', 'string', 'max:191'],
-            'state' => ['required', 'string', 'max:191'],
-            
+            'first_name' => ['required', 'string', 'max:191'],
+            'last_name' => ['required', 'string', 'max:191'],
+            'email' => ['email'],
             'phone' => ['required'],
-            'city' =>['required', 'string', 'max:191'],
-            
-            'area'=>['required', 'string', 'max:191'],
-            'models_num'['required'],
+            'message'=>['required', 'string']
         ]);
         // dd($request->all());
         if ($validator->fails()) {
 
             return $this->sendError(null,$validator->errors());
         }
-        ContactUs::create(['name'=>$request->name,'state'=>$request->state,'city'=>$request->city,'area'=>$request->area,'phone'=>$request->phone,'models_num'=>$request->models_num]);
-        return $this->sendResponse(null,'شكرا لمشاركتكم');
+        ContactUs::create(['first_name'=>$request->first_name,'last_name'=>$request->last_name,'email'=>$request->email,'phone'=>$request->phone,'message'=>$request->message]);
+        return $this->sendResponse(null,"Thank's for contact us");
     }
 }

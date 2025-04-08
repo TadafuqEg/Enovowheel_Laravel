@@ -6,17 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Casts\CustomDateTimeCast;
 use Illuminate\Database\Eloquent\SoftDeletes;
-class ContactUs extends Model
+class Product extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $table = 'contact_us';
+    protected $table = 'products';
+    public $ImageCollection = 'image';
     protected $fillable = [
-        'first_name',
-        'last_name',
-        'email',
-        'message',
-        'phone',
-        
+        'name',
+        'description',
+        'price',
+        'amount',
+        'price_after_discount',
+        'category_id',
+        'code'
     ];
 
     protected $allowedSorts = [
@@ -27,5 +29,7 @@ class ContactUs extends Model
 
     protected $hidden = ['deleted_at'];
 
-    
+    public function category(){
+        return $this->belongsTo(Category::class,'category_id','id')->withTrashed();
+    }
 }
