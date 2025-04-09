@@ -207,9 +207,69 @@ class AuthController extends ApiController
         // dd($request->all());
         if ($validator->fails()) {
 
-            return $this->sendError(null,$validator->errors());
+            $errors = implode(" / ", $validator->errors()->all());
+
+            return $this->sendError(null, $errors, 400);
         }
-        ContactUs::create(['first_name'=>$request->first_name,'last_name'=>$request->last_name,'email'=>$request->email,'phone'=>$request->phone,'message'=>$request->message]);
+        ContactUs::create(['first_name'=>$request->first_name,'last_name'=>$request->last_name,'email'=>$request->email,'phone'=>$request->phone,'message'=>$request->message,'country_code'=>$request->country_code]);
         return $this->sendResponse(null,"Thank's for contact us");
     }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    public function add_address(Request $request){
+        $validator  =   Validator::make($request->all(), [
+            'lat' => ['required','latitude'],
+            'lng' => ['required','longitude'],
+            'name' => ['required']
+            
+        ]);
+        // dd($request->all());
+        if ($validator->fails()) {
+
+            $errors = implode(" / ", $validator->errors()->all());
+
+            return $this->sendError(null, $errors, 400);
+        }
+        $address=Address::create(['lat'=>floatval($request->lat),'lng'=>floatval($request->lng),'name'=>$request->name,'user_id'=>auth()->user()->id]);
+        return $this->sendResponse($address,"New Address created successfully");
+    }
+    public function update_address(Request $request){
+        $validator  =   Validator::make($request->all(), [
+            'lat' => ['required','latitude'],
+            'lng' => ['required','longitude'],
+            'name' => ['required'],
+            'address_id'=> ['required', 'exists:addresses,id']
+            
+        ]);
+        // dd($request->all());
+        if ($validator->fails()) {
+
+            $errors = implode(" / ", $validator->errors()->all());
+
+            return $this->sendError(null, $errors, 400);
+        }
+        $address=Address::find($request->address_id);
+        $address->lat=floatval($request->lat);
+        $address->lng=floatval($request->lng);
+        $address->name=$request->name;
+        $address->save();
+        return $this->sendResponse($address,"New Address updated successfully");
+
+
+    }
+    public function all_addresses(){
+        $addresses=Address::where('user_id',auth()->user()->id)->get();
+        return $this->sendResponse($addresses,null);
+
+    }
+    public function address($id){
+        $address=Address::where('id',$id)->first();
+        return $this->sendResponse($address,null);
+
+    }
+    public function delete_address($id){
+        Address::where('id',$id)->where('user_id',auth()->user()->id)->delete();
+        return $this->sendResponse(null,'Address deleted successfully');
+
+    } 
+
 }

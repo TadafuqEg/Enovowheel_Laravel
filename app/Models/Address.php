@@ -6,17 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Casts\CustomDateTimeCast;
 use Illuminate\Database\Eloquent\SoftDeletes;
-class ContactUs extends Model
+class Address extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $table = 'contact_us';
+    protected $table = 'addresses';
     protected $fillable = [
-        'first_name',
-        'last_name',
-        'email',
-        'message',
-        'phone',
-        'country_code'
+        'lat',
+        'lng',
+        'name',
+        'user_id'
     ];
 
     protected $allowedSorts = [
@@ -27,5 +25,8 @@ class ContactUs extends Model
 
     protected $hidden = ['deleted_at'];
 
-    
+    public function user()
+    {
+        return $this->belongsTo(User::class,'user_id','id')->withTrashed();
+    }
 }
