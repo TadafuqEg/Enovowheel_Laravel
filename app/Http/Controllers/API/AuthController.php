@@ -16,7 +16,7 @@ use App\Mail\SendOTP;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-use App\Models\Recommendation;
+use App\Models\Address;
 use Illuminate\Validation\Rule;
 use App\Models\Volunteer;
 use App\Models\Setting;
